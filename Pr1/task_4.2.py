@@ -1,0 +1,33 @@
+import tkinter as tk
+import math
+
+def pyshader(func, w, h):
+    scr = bytearray((0, 0, 0) * w * h)
+    for y in range(h):
+        for x in range(w):
+            p = (w * y + x) * 3
+            scr[p:p + 3] = [max(min(int(c * 255), 255), 0)
+                            for c in func(x / w, y / h)]
+    return bytes('P6\n%d %d\n255\n' % (w, h), 'ascii') + scr
+
+def func(x, y):
+    # center_x, center_y = 0.5, 0.5
+    # radius = 0.4 
+    # distance = math.sqrt((x - center_x) ** 2 + (y - center_y) ** 2)
+
+    # if distance <= radius:
+    #     return (x, y, 0)  
+    # else:
+    #     return (0, 0, 0)
+    r1 = 1 - (2 * x - 1.1) ** 2 - (2 * y - 1.1) ** 2
+    r2 = 1 - (2 * x - 0.9) ** 2 - (2 * y - 0.9) ** 2
+    return r1, r2, 0
+
+root = tk.Tk()
+label = tk.Label(root)
+img = tk.PhotoImage(data=pyshader(func, 256, 256)).zoom(2, 2)
+label.pack()
+label.config(image=img)
+root.mainloop()
+
+# Нужно добавить еще и блюр
