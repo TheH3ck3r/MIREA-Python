@@ -20,14 +20,19 @@ colors = {
 }
 
 def generate_sprite():
-    sprite = np.random.randint(0, 2, (5, 5))
-    sprite = np.maximum(sprite, sprite[:, ::-1])
+    sprite = np.zeros((5, 5, 3), dtype=int) 
+    for i in range(5):
+        for j in range(5):
+            if np.random.randint(0, 2) == 1:
+                color_rgb = colors[np.random.choice(list(colors.keys()))]
+                sprite[i, j] = color_rgb
+                sprite[i, 4 - j] = color_rgb
     return sprite
 
 def generate_sprite_map(cols, rows, padding):
     sprite_width = 5 + padding
     sprite_height = 5 + padding
-    sprite_map = np.zeros((sprite_height * rows - padding, sprite_width * cols - padding)) 
+    sprite_map = np.zeros((sprite_height * rows - padding, sprite_width * cols - padding, 3), dtype=int) 
     for i in range(rows):
         start_row = i * sprite_height
         end_row = start_row + 5
@@ -38,5 +43,5 @@ def generate_sprite_map(cols, rows, padding):
     return sprite_map
 
 sprite_map = generate_sprite_map(cols=20, rows=10, padding=5) 
-plt.imshow(sprite_map, cmap='gray', interpolation='nearest')
+plt.imshow(sprite_map, interpolation='nearest')
 plt.show()
