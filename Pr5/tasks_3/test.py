@@ -26,11 +26,10 @@ activity = pd.concat([messages_df, checks_df, statuses_df])
 activity['day_of_week'] = activity['time'].dt.dayofweek
 activity_count = activity.groupby('day_of_week').size()
 
-plt.figure(figsize=(10, 6))
-activity_count.plot(kind='bar', color='skyblue')
-plt.title('Распределение активности студентов по дням недели')
-plt.xlabel('День недели')
-plt.ylabel('Количество событий')
-plt.xticks(range(7), ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'], rotation=0)
-plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.show()
+# Выберем одну из задач
+task_id = 39
+
+# Выберем данные только для этой задачи
+task_activity = activity[activity['task'] == task_id]
+
+# Построим временной ряд активности студентов по этой задаче

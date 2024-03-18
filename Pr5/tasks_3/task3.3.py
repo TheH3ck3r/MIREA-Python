@@ -22,15 +22,7 @@ messages_df = pd.DataFrame(messages, columns=['task', 'time'])
 checks_df = pd.DataFrame(checks, columns=['message_id', 'time'])
 statuses_df = pd.DataFrame(statuses, columns=['task', 'time'])
 
-activity = pd.concat([messages_df, checks_df, statuses_df])
-activity['day_of_week'] = activity['time'].dt.dayofweek
-activity_count = activity.groupby('day_of_week').size()
+messages_count_per_task = messages_df.groupby('task').size()
 
-plt.figure(figsize=(10, 6))
-activity_count.plot(kind='bar', color='skyblue')
-plt.title('Распределение активности студентов по дням недели')
-plt.xlabel('День недели')
-plt.ylabel('Количество событий')
-plt.xticks(range(7), ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'], rotation=0)
-plt.grid(axis='y', linestyle='--', alpha=0.7)
-plt.show()
+average_messages_per_task = messages_count_per_task.mean()
+print("Среднее количество сообщений по каждой задаче:", average_messages_per_task)

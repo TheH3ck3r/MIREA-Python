@@ -26,11 +26,25 @@ activity = pd.concat([messages_df, checks_df, statuses_df])
 activity['day_of_week'] = activity['time'].dt.dayofweek
 activity_count = activity.groupby('day_of_week').size()
 
-plt.figure(figsize=(10, 6))
-activity_count.plot(kind='bar', color='skyblue')
-plt.title('Распределение активности студентов по дням недели')
-plt.xlabel('День недели')
+def get_time_interval(hour):
+    if 6 <= hour < 12:
+        return 'Утро'
+    elif 12 <= hour < 18:
+        return 'День'
+    elif 18 <= hour < 24:
+        return 'Вечер'
+    else:
+        return 'Ночь'
+
+activity['hour'] = activity['time'].dt.hour
+activity['time_interval'] = activity['hour'].apply(get_time_interval)
+
+activity_count_by_time = activity.groupby('time_interval').size()
+
+plt.figure(figsize=(8, 6))
+activity_count_by_time.plot(kind='bar', color='lightgreen')
+plt.title('Распределение активности студентов по времени суток')
+plt.xlabel('Временной интервал')
 plt.ylabel('Количество событий')
-plt.xticks(range(7), ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'], rotation=0)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
