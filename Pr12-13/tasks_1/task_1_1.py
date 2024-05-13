@@ -1,4 +1,3 @@
-
 def find_word(string: str, word: str):
     """
     >>> find_word('Какой-то текст', 'Какой')
