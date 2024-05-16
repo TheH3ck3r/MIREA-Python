@@ -1,5 +1,5 @@
 class MealyMachine:
-    
+
     def __init__(self):
         self.state = 'A'
 
@@ -60,4 +60,22 @@ def test():
         o.place()
     except MealyError:
         pass
+    o.glare()
+    o.glare()
+    o.place()
+    o.glare()
+    o.state = "C"
+    o.place()
+    o.place()
+    o.state = "D"
+    o.glare()
+    try:
+        o.glare()
+    except MealyError:
+        pass
+    o.place()
+    o.place()
+    o.place()
+
+    o.state = "F"
     o.glare()

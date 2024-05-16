@@ -8,7 +8,8 @@ def main(a, b, n):
         for j in range(1, b + 1):
             sum_3 = 0
             for c in range(1, a + 1):
-                sum_3 += (76 * ((math.floor((64 * k) - 0.02 - (j ** 3))) ** 6)) - (j ** 3) - ((60 * (c ** 3)) ** 2)
+                sum_3 += (76*((math.floor((64*k)-0.02-(j**3)))**6)) \
+                      - (j ** 3) - ((60 * (c ** 3)) ** 2)
             sum_2 += sum_3
         sum_1 *= sum_2
     return sum_1
