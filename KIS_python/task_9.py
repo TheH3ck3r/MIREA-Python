@@ -12,6 +12,7 @@ def main(input_str):
         r"</sect>"
     )
     matches = re.findall(pattern, input_str)
+    print(matches)
     result = []
     for match in matches:
         nums = [int(num) for num in match[:-1] if num]
