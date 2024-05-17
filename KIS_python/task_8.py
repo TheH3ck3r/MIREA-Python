@@ -1,18 +1,21 @@
-def main(n):
-    result_object = {}
+import re
 
-    decoded_value = int(n)
 
-    field1_value = decoded_value & ((1 << 3) - 1)
-    field2_value = (decoded_value >> 3) & ((1 << 9) - 1)
-    field3_value = (decoded_value >> 12) & ((1 << 8) - 1)
-    field4_value = (decoded_value >> 20) & ((1 << 2) - 1)
+def main(s: str):
+    result = []
+    pattern_1 = r"var\s*{([\d\s\.\#\-]*)}\s*=:\s*(.+?)\s*</sect>"
+    pattern_2 = r"#(-?\w+)"
+    matches_1 = re.findall(pattern_1, s)
+    for match_1 in matches_1:
+        matches_2 = re.findall(pattern_2, match_1[0])
+        new_tuple = (
+            match_1[len(match_1) - 1],
+            [int(match) for match in matches_2],
+        )
+        result.append(new_tuple)
+    return result
 
-    result_object['D1'] = field1_value
-    result_object['D2'] = field2_value
-    result_object['D3'] = field3_value
-    result_object['D4'] = field4_value
-    return result_object
+input_str = "<sect> <sect> var{ #-2625 .#2821 . #955 .#4021 } =: eroror_853</sect><sect> var { #8115 . #7851 . #-6382 } =: ribera </sect><sect> var{ #-5874 . #2135 } =: usbeen_689 </sect> <sect> var{#-6227 . #5446} =: rabidi </sect> </sect>"
 
 if __name__ == '__main__':
-    print(main("4140168"))
+    print(main(input_str))
