@@ -3,15 +3,21 @@ from struct import unpack_from, calcsize
 
 class Types:
     double = 'd'
+
     int32 = 'i'
+    uint32 = 'I'
+
     int16 = 'h'
     uint16 = 'H'
-    uint8 = 'B'
+
     int8 = 'b'
+    uint8 = 'B'
+
     int64 = 'q'
-    uint32 = 'I'
-    char = 's' # или 'c'
     uint64 = 'Q'
+
+    char = 's'  # или 'c'
+
     float = 'f'
 
 
@@ -91,7 +97,7 @@ def read_a(reader):
     b_reader = reader.jump_to(b_offset)
     a3 = read_b(b_reader)
 
-    d_offset = reader.read(Types.uint32)
+    d_offset = reader.read(Types.uint16)
     d_reader = reader.jump_to(d_offset)
     a4 = read_d(d_reader)
 
@@ -107,7 +113,7 @@ def main(data):
     return read_a(BinaryReader(data, 3))
 
 
-print(main(b"UZH\x80\xd7\xa1\x91\xe3\x1fK\x00\x00\x00e\x00\x08O'\xee\xf4\x88\xe1"
+print(main(b"UZH\x80\xd7\xa1?\x91\xe3\x1fK?\x00\x00\x00e\x00\x08O'\xee\xf4\x88\xe1"
            b'&\x81\x00\x00\x00xZ\xb8v?\xee<\xa2\x8eY\xfd\x84\xef\x03k\xca\xb3>t\xf0=]v'
            b'r\x99\xa1\x1d\x00\x00\x00*\x00\x00\x00\xf9*#Z\xdd\x81\xbdiO\x07K\x9c^'
            b'\xb9\xdeO\x02\x00\x00\x007\x00\x00\x00J\xa6\x85\x92,G\x01h\xb7\xddxr)'
