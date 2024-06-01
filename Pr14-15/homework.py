@@ -47,7 +47,7 @@ print("\n------3.1------")
 print(I(42))
 print(K(1)(2))
 print(KI(1)(2))
-# print(C(C(power))(2)(5)) У меня он на С ругается почему-то, так что оставлю в коментарии. А так всё должно работать (в этом номере)
+print(C(C(power))(2)(5))
 print(M(lambda x: 42))
 print("---------------")
 
@@ -152,10 +152,10 @@ print("---------------\n")
 
 
 #4.7
-# Z = lambda f: (lambda x: f(x(x)))(lambda x: f(x(x)))          Он не особо работает
-# fact = Z(lambda f: lambda n: 1 if n == 0 else n * f(n - 1))
+Z = lambda f: (lambda x: f(x(x)))(lambda x: f(x(x)))        
+fact = Z(lambda f: lambda n: 1 if n == 0 else n * f(n - 1))
 
-# print("4.7: ", fact(5))
+print("4.7: ", fact(5))
 
 
 #4.8

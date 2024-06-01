@@ -1,7 +1,7 @@
 def main(input_table):
     transformed_table = []
     for row in input_table:
-        score = str(round(row[0], 2))
+        score = str(round(row[0], 2)) # Работает некорректно
         if len(score) == 3:
             score += '0'
         email, name = str(row[1]).split(';')
