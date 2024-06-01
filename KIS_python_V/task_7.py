@@ -33,19 +33,18 @@ def main(x: list):
     if (x[0] == 1977):
         if (x[3] == "JFLEX"):
             return 4
-        elif (x[0] == 1977 and x[4] == 2013):
+        elif (x[4] == 2013):
             return 5
         else:
             return some[x[0]][x[4]][x[3]][x[2]]
-    elif(x[0] == 2016):
-        if (x[2] == "APL"):
-            return 12
-        elif (x[2] == "C" and x[1] == "NGINX"):
-            return 8
-        elif (x[1] == "ALP"):
-            return some[x[0]][x[2]][x[1]][x[3]]
-        elif (x[1] == "ROFF"):
-            return some[x[0]][x[2]][x[1]][x[4]]
+    if (x[2] == "APL"):
+        return 12
+    elif (x[1] == "NGINX"):
+        return 8
+    elif (x[1] != "ROFF"):
+        return some[x[0]][x[2]][x[1]][x[3]]
+    else:
+        return some[x[0]][x[2]][x[1]][x[4]]
 
 
 if __name__ == '__main__':
