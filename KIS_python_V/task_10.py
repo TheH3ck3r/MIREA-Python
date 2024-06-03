@@ -1,63 +1,61 @@
-def remove_duplicate_columns(input_table):
-    seen = set()
-    unique_columns = []
-    for row in input_table:
-        unique_row = []
-        for value in row:
-            if value not in seen:
-                seen.add(value)
-                unique_row.append(value)
-            else:
-                unique_row.append(None)
-        unique_columns.append(unique_row)
-    return unique_columns
+import copy
 
-def remove_empty_columns(unique_columns):
-    unique_columns = list(map(list, zip(*unique_columns)))
-    non_empty_columns = [col for col in unique_columns if any(val is not None for val in col)]
-    non_empty_columns = list(map(list, zip(*non_empty_columns)))
-    return non_empty_columns
 
-def split_column(non_empty_columns, split_index=0):
-    for row in non_empty_columns:
-        if row[split_index] is not None:
-            phone, name = row[split_index].split('!')
-            row[split_index] = phone
-            row.append(name)
-    return non_empty_columns
+def checking_for_copies(massive: list):
+    seen = []
+    delete_to = []
+    for i in range(len(massive)):
+        if massive[i] not in seen:
+            seen.append(massive[i])
+        else:
+            delete_to.append(i)
+    delete_to = sorted(delete_to, reverse=True)
+    for i in delete_to:
+        massive.pop(i)
+    return massive
 
-def transform_row(row):
-    name_parts = row[-1].split()
-    transformed_name = f"{name_parts[1]} {name_parts[0]}"
-    
-    score = round(float(row[1]), 1)
-    
-    email = row[3].split('@')[0]
-    
-    phone = row[0][-9:]
-    formatted_phone = f"{phone[:3]}-{phone[3:5]}-{phone[5:]}"
-    
-    return [transformed_name, f"{score:.1f}", email, formatted_phone]
 
-def transform_table(input_table):
-    unique_columns = remove_duplicate_columns(input_table)
-    non_empty_columns = remove_empty_columns(unique_columns)
-    split_columns = split_column(non_empty_columns)
-    
-    transformed_table = [transform_row(row) for row in split_columns]
-    transformed_table.sort(key=lambda x: x[1])  # сортировка по баллу
-    
-    transposed_table = list(map(list, zip(*transformed_table)))
-    
-    return transposed_table
+def prettify(massive: list):
+    parse_object = (str(massive[0])).split(" ")
+    massive[0] = f'{parse_object[len(parse_object)-1]} {parse_object[0]}'
+    massive[1] = f'{round(float(massive[1]), 1)}'
+    parse_object = (str(massive[2])).split('@')
+    massive[2] = parse_object[0]
+    return massive
 
-# Пример использования:
-input_table = [
-    ["+78461967740!Вочонберг Игорь", "0.5691", None, "voconberg48@yandex.ru", "0.5691"],
-    ["+77649968035!Фишебяк Данил", "0.3252", None, "fisebak92@yahoo.com", "0.3252"],
-    ["+75593897421!Шевакли Игнат", "0.7664", None, "sevakli19@gmail.com", "0.7664"],
-    ["+79406370337!Золян Рустам", "0.1996", None, "rustam97@yandex.ru", "0.1996"],
-]
 
-output_table = transform_table(input_table)
-print(output_table)
+def transpose(massive: list):
+    answer = [
+        [],
+        [],
+        [],
+        [],
+    ]
+    for i in range(len(massive)):
+        for j in range(len(massive[i])):
+            answer[j].append(massive[i][j])
+
+    return answer
+
+
+def main(massives):
+    new_massives = copy.deepcopy(massives)
+    for i in range(len(new_massives)):
+        new_massives[i] = checking_for_copies(massive=new_massives[i])
+    for i in range(len(new_massives)):
+        new_massives[i] = [
+            element for element in new_massives[i] if element is not None
+        ]
+    for i in range(len(new_massives)):
+        another_mass = (new_massives[i][0]).split("!")
+        new_massives[i][0] = another_mass[1]
+        new_massives[i].insert(len(new_massives[i]),
+                               f'{"".join(another_mass[0][5:8])}'
+                               f'-{"".join(another_mass[0][8:10])}'
+                               f'-{"".join(another_mass[0][10:12])}')
+    for i in range(len(new_massives)):
+        new_massives[i] = prettify(massive=new_massives[i])
+
+    new_massives.sort(key=lambda x: x[2])
+
+    return transpose(new_massives)
